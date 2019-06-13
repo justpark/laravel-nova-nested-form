@@ -292,7 +292,7 @@ trait FillsSubAttributes
         if (count($this->touched) > 0 || $this->shouldRemoveAll) {
 
             if ($this->shouldRemoveAll) {
-                $ids = ($model->{$this->viaRelationship})->isNotEmpty() ? $model->{$this->viaRelationship}()->pluck('id') : collect();
+                $ids = $model->{$this->viaRelationship}()->pluck($this->viaRelationship . '.id');
             } else {
                 $ids = $model->{$this->viaRelationship}()->whereNotIn($this->viaRelationship . '.id', $this->touched)->pluck($this->viaRelationship . '.id');
             }
