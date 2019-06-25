@@ -288,15 +288,20 @@ trait FillsSubAttributes
      */
     protected function removeUntouched(Model $model)
     {
+if (count($this->touched) > 0 || $this->shouldRemoveAll) {
+    /** @var Relation $relation */
+    $relation = $model->{$this->viaRelationship}();
 
-        if (count($this->touched) > 0 || $this->shouldRemoveAll) {
-
-            if ($this->shouldRemoveAll) {
-                $ids = $model->{$this->viaRelationship}()->pluck($this->viaRelationship . '.id');
-            } else {
-                $ids = $model->{$this->viaRelationship}()->whereNotIn($this->viaRelationship . '.id', $this->touched)->pluck($this->viaRelationship . '.id');
-            }
-
+    if ($this->shouldRemoveAll) {
+        $id = $relation->pluck('id');
+    } else {
+        if ($relation instanceof BelongsTo) {
+            $ids = $relation->whereNotIn($relation->getQualifiedOwnerKeyName(), $this->touched)->pluck($relation->getQualifiedOwnerKeyName());
+        } else {
+            $ids = $model->{$this->viaRelationship}()->whereNotIn($this->viaRelationship . '.id', $this->touched)->pluck($this->viaRelationship . '.id');
+        }
+    }
+    
             $request = CustomDeleteResourceRequest::createFrom($this->request->replace(['resources' => $ids]));
             $request->setCustomResource($this->resourceClass);
 
