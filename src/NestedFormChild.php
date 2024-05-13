@@ -30,7 +30,7 @@ class NestedFormChild extends NestedFormSchema
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
             'resourceId' => $this->model->getKey(),
