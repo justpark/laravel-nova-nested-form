@@ -131,7 +131,7 @@ class NestedFormSchema implements JsonSerializable
     }
 
     /**
-     * Return the method reflection to filter 
+     * Return the method reflection to filter
      * the fields.
      */
     protected function filterFields()
@@ -176,7 +176,7 @@ class NestedFormSchema implements JsonSerializable
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'fields' => $this->fields,
