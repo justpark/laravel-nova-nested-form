@@ -1,9 +1,8 @@
 /.idea
 /vendor
 /node_modules
+auth.json
 package-lock.json
-yarn-error.log
-yarn.lock
 composer.phar
 composer.lock
 phpunit.xml
